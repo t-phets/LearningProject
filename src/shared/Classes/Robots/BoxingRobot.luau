@@ -35,7 +35,7 @@ function BoxingRobot.Punch(self: BoxingRobot, target: Types.IDamageable)
 
     self.Stamina:Reduce(staminaCost)
     print(`[{self.Name}] punches!`)
-    target:TakeDamage(self.Damage) -- ไม่สนว่าเป้าหมายคืออะไร แค่รู้ว่ามันรับดาเมจได้
+    target:TakeDamage(self.Damage) -- It doesn't matter what the target is; just know it can take damage
 end
 
 return BoxingRobot

@@ -1,10 +1,11 @@
+-- ServerScriptService/BattleManager.luau
 --!strict
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local BaseRobot = require(ReplicatedStorage.Shared.Classes.Robots.BaseRobot)
 
 local BattleManager = {}
 
--- กำหนด Type พื้นฐาน และใช้ Type Casting ในจุดที่ต้องการความยืดหยุ่น
 type AnyRobot = BaseRobot.BaseRobot
 
 local function executeRandomAction(robot: AnyRobot, allies: {AnyRobot}, enemies: {AnyRobot})
@@ -19,15 +20,14 @@ local function executeRandomAction(robot: AnyRobot, allies: {AnyRobot}, enemies:
 
 	local injuredAllies: {AnyRobot} = {}
 	for _, ally in allies do
-		-- แก้ปัญหา Type any & number cannot be compared โดยการ Cast เป็น number
 		if not ally:IsDead() and (ally.Health.Current :: number) < (ally.Health.Max :: number) then
 			table.insert(injuredAllies, ally)
 		end
 	end
 
-	-- แปลงเป็น any เพื่อเรียกใช้ความสามารถเฉพาะตัว (Duck Typing) โดยไม่ติด Error Strict Type
 	local dynRobot = robot :: any
 
+    -- Duck Typing "ถ้ามันเดินเหมือนเป็ด ร้องเหมือนเป็ด และว่ายน้ำเหมือนเป็ด สิ่งนั้นก็คือเป็ด" 🥹🥹🤣🤣
 	if dynRobot.Punch and #aliveEnemies > 0 then
 		local target = aliveEnemies[math.random(1, #aliveEnemies)]
 		dynRobot:Punch(target)

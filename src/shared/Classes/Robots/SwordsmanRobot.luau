@@ -50,7 +50,7 @@ function SwordsmanRobot.Parry(self: SwordsmanRobot)
 	end
 end
 
--- Override TakeDamage เพื่อลดความเสียหายครึ่งหนึ่งหากตั้ง Guard อยู่
+-- Override TakeDamage to reduce damage by half if guarding
 function SwordsmanRobot.TakeDamage(self: SwordsmanRobot, amount: number)
 	if self.IsBlocking then
 		amount = math.floor(amount * 0.5)
