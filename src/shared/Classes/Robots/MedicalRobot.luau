@@ -4,7 +4,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local BaseRobot = require(script.Parent.BaseRobot)
 local StateResource = require(ReplicatedStorage.Shared.Components.StateResource)
-local Types = require(ReplicatedStorage.Shared.Interfaces.Types)
+local CombatInterfaces = require(ReplicatedStorage.Shared.Interfaces.CombatInterfaces)
 
 local MedicalRobot = {}
 MedicalRobot.__index = MedicalRobot
@@ -23,7 +23,7 @@ function MedicalRobot.new(name: string, health: number, energy: number, healAmou
     return self
 end
 
-function MedicalRobot.HealTarget(self: MedicalRobot, target: Types.IHealable)
+function MedicalRobot.HealTarget(self: MedicalRobot, target: CombatInterfaces.IHealable)
     if self:IsDead() then return end
     if target:IsDead() then 
         print(`[{self.Name}] cannot heal a destroyed robot!`)

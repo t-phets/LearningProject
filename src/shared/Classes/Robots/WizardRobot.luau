@@ -4,7 +4,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local BaseRobot = require(script.Parent.BaseRobot)
 local StateResource = require(ReplicatedStorage.Shared.Components.StateResource)
-local Types = require(ReplicatedStorage.Shared.Interfaces.Types)
+local CombatInterfaces = require(ReplicatedStorage.Shared.Interfaces.CombatInterfaces)
 
 local WizardRobot = {}
 WizardRobot.__index = WizardRobot
@@ -23,7 +23,7 @@ function WizardRobot.new(name: string, health: number, mana: number, magicDamage
     return self
 end
 
-function WizardRobot.CastFireball(self: WizardRobot, target: Types.IDamageable)
+function WizardRobot.CastFireball(self: WizardRobot, target: CombatInterfaces.IDamageable)
     if self:IsDead() then return end
     
     local manaCost = 25

@@ -4,7 +4,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local BaseRobot = require(script.Parent.BaseRobot)
 local StateResource = require(ReplicatedStorage.Shared.Components.StateResource)
-local Types = require(ReplicatedStorage.Shared.Interfaces.Types)
+local CombatInterfaces = require(ReplicatedStorage.Shared.Interfaces.CombatInterfaces)
 
 local BoxingRobot = {}
 BoxingRobot.__index = BoxingRobot
@@ -24,7 +24,7 @@ function BoxingRobot.new(name: string, health: number, stamina: number, damage: 
     return self
 end
 
-function BoxingRobot.Punch(self: BoxingRobot, target: Types.IDamageable)
+function BoxingRobot.Punch(self: BoxingRobot, target: CombatInterfaces.IDamageable)
     if self:IsDead() then return end
     
     local staminaCost = 10

@@ -2,23 +2,21 @@
 --!strict
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local BaseRobot = require(ReplicatedStorage.Shared.Classes.Robots.BaseRobot)
+local RobotTypes = require(ReplicatedStorage.Shared.Types.RobotTypes)
 
 local BattleManager = {}
 
-type AnyRobot = BaseRobot.BaseRobot
-
-local function executeRandomAction(robot: AnyRobot, allies: {AnyRobot}, enemies: {AnyRobot})
+local function executeRandomAction(robot: RobotTypes.AnyRobot, allies: RobotTypes.TeamRobot, enemies: RobotTypes.TeamRobot)
 	if robot:IsDead() then return end
 
-	local aliveEnemies: {AnyRobot} = {}
+	local aliveEnemies: RobotTypes.TeamRobot = {}
 	for _, enemy in enemies do
 		if not enemy:IsDead() then
 			table.insert(aliveEnemies, enemy)
 		end
 	end
 
-	local injuredAllies: {AnyRobot} = {}
+	local injuredAllies: RobotTypes.TeamRobot = {}
 	for _, ally in allies do
 		if not ally:IsDead() and (ally.Health.Current :: number) < (ally.Health.Max :: number) then
 			table.insert(injuredAllies, ally)
@@ -52,7 +50,7 @@ local function executeRandomAction(robot: AnyRobot, allies: {AnyRobot}, enemies:
 	end
 end
 
-local function isTeamAlive(team: {AnyRobot}): boolean
+local function isTeamAlive(team: RobotTypes.TeamRobot): boolean
 	for _, robot in team do
 		if not robot:IsDead() then
 			return true
@@ -61,7 +59,7 @@ local function isTeamAlive(team: {AnyRobot}): boolean
 	return false
 end
 
-function BattleManager.SimulateTeamBattle(teamA: {AnyRobot}, teamB: {AnyRobot})
+function BattleManager.SimulateTeamBattle(teamA: RobotTypes.TeamRobot, teamB: RobotTypes.TeamRobot)
 	print("========================================")
 	print("        BATTLE SIMULATION STARTED       ")
 	print("========================================")

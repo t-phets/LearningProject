@@ -3,7 +3,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local BaseRobot = require(script.Parent.BaseRobot)
 local StateResource = require(ReplicatedStorage.Shared.Components.StateResource)
-local Types = require(ReplicatedStorage.Shared.Interfaces.Types)
+local CombatInterfaces = require(ReplicatedStorage.Shared.Interfaces.CombatInterfaces)
 
 local SwordsmanRobot = {}
 SwordsmanRobot.__index = SwordsmanRobot
@@ -25,7 +25,7 @@ function SwordsmanRobot.new(name: string, health: number, stamina: number, sword
 	return self
 end
 
-function SwordsmanRobot.Slash(self: SwordsmanRobot, target: Types.IDamageable)
+function SwordsmanRobot.Slash(self: SwordsmanRobot, target: CombatInterfaces.IDamageable)
 	if self:IsDead() then return end
 	self.IsBlocking = false
 	
