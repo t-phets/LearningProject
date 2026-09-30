@@ -19,7 +19,7 @@ function BaseRobot.new(name: string, maxHealth: number): BaseRobot
         Name = name,
         Health = StateResource.new(maxHealth),
     }, BaseRobot)
-    return self
+    return self :: BaseRobot
 end
 
 -- นำพฤติกรรม IDamageable มาไว้ที่นี่

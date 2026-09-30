@@ -7,7 +7,9 @@ local RobotTypes = require(ReplicatedStorage.Shared.Types.RobotTypes)
 local BattleManager = {}
 
 local function executeRandomAction(robot: RobotTypes.AnyRobot, allies: RobotTypes.TeamRobot, enemies: RobotTypes.TeamRobot)
-	if robot:IsDead() then return end
+	if robot:IsDead() then 
+		return 
+	end
 
 	local aliveEnemies: RobotTypes.TeamRobot = {}
 	for _, enemy in enemies do
@@ -23,31 +25,26 @@ local function executeRandomAction(robot: RobotTypes.AnyRobot, allies: RobotType
 		end
 	end
 
-	local dynRobot = robot :: any -- Dynamic Robot
+	local dynRobot = robot :: any
 
-	-- Random Enemy and Ally if any
 	local randomEnemy = (#aliveEnemies > 0) and aliveEnemies[math.random(1, #aliveEnemies)] or nil
-	local randomAlly = (#injuredAllies > 0) and injuredAllies[math.random(1, #injuredAllies)] or nil
+	local randomInjuredAlly = (#injuredAllies > 0) and injuredAllies[math.random(1, #injuredAllies)] or nil
 
-    -- Duck Typing "ถ้ามันเดินเหมือนเป็ด ร้องเหมือนเป็ด และว่ายน้ำเหมือนเป็ด สิ่งนั้นก็คือเป็ด" 🥹🥹🤣🤣
+	-- Duck Typing "ถ้ามันเดินเหมือนเป็ด ร้องเหมือนเป็ด และว่ายน้ำเหมือนเป็ด สิ่งนั้นก็คือเป็ด" 🥹🥹🤣🤣
+	if dynRobot.Punch and randomEnemy then
+		dynRobot:Punch(randomEnemy)
 
-	if randomEnemy then
-		if dynRobot.Punch then
-			dynRobot:Punch(randomEnemy)
+	elseif dynRobot.CastFireball and randomEnemy then
+		dynRobot:CastFireball(randomEnemy)
 
-		elseif dynRobot.CastFireball then
-			dynRobot:CastFireball(randomEnemy)
+	elseif dynRobot.HealTarget and randomInjuredAlly then
+		dynRobot:HealTarget(randomInjuredAlly)
 
-		elseif dynRobot.Slash then
-			if math.random() > 0.5 then
-				dynRobot:Slash(randomEnemy)
-			else
-				dynRobot:Parry()
-			end
-		end
-	elseif randomAlly then
-		if dynRobot.HealTarget then
-			dynRobot:HealTarget(randomAlly)
+	elseif dynRobot.Slash and randomEnemy then
+		if math.random() > 0.5 then
+			dynRobot:Slash(randomEnemy)
+		else
+			dynRobot:Parry()
 		end
 	else
 		print(`[{robot.Name}] stands ground...`)
