@@ -23,27 +23,31 @@ local function executeRandomAction(robot: RobotTypes.AnyRobot, allies: RobotType
 		end
 	end
 
-	local dynRobot = robot :: any
+	local dynRobot = robot :: any -- Dynamic Robot
+
+	-- Random Enemy and Ally if any
+	local randomEnemy = (#aliveEnemies > 0) and aliveEnemies[math.random(1, #aliveEnemies)] or nil
+	local randomAlly = (#injuredAllies > 0) and injuredAllies[math.random(1, #injuredAllies)] or nil
 
     -- Duck Typing "ถ้ามันเดินเหมือนเป็ด ร้องเหมือนเป็ด และว่ายน้ำเหมือนเป็ด สิ่งนั้นก็คือเป็ด" 🥹🥹🤣🤣
-	if dynRobot.Punch and #aliveEnemies > 0 then
-		local target = aliveEnemies[math.random(1, #aliveEnemies)]
-		dynRobot:Punch(target)
 
-	elseif dynRobot.CastFireball and #aliveEnemies > 0 then
-		local target = aliveEnemies[math.random(1, #aliveEnemies)]
-		dynRobot:CastFireball(target)
+	if randomEnemy then
+		if dynRobot.Punch then
+			dynRobot:Punch(randomEnemy)
 
-	elseif dynRobot.HealTarget and #injuredAllies > 0 then
-		local target = injuredAllies[math.random(1, #injuredAllies)]
-		dynRobot:HealTarget(target)
+		elseif dynRobot.CastFireball then
+			dynRobot:CastFireball(randomEnemy)
 
-	elseif dynRobot.Slash and #aliveEnemies > 0 then
-		local target = aliveEnemies[math.random(1, #aliveEnemies)]
-		if math.random() > 0.5 then
-			dynRobot:Slash(target)
-		else
-			dynRobot:Parry()
+		elseif dynRobot.Slash then
+			if math.random() > 0.5 then
+				dynRobot:Slash(randomEnemy)
+			else
+				dynRobot:Parry()
+			end
+		end
+	elseif randomAlly then
+		if dynRobot.HealTarget then
+			dynRobot:HealTarget(randomAlly)
 		end
 	else
 		print(`[{robot.Name}] stands ground...`)
